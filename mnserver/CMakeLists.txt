@@ -1,61 +1,44 @@
-# 最低版本
-cmake_minimum_required(VERSION 2.8)
-
 # 工程名称
-project(mnserver C CXX)
+set(CURRENT_PROJECT_NAME mnserver)
 
-# 编译类型
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Release")
-endif()
+# 添加编译列表
+set(CURRENT_PROJECT_SRC_LISTS 
+  src/thread_pool.cpp
+  src/net_message.cpp
+  src/io_service_thread.cpp
+  src/io_service_thread_manager.cpp
+  src/message_filter.cpp
+  src/tcp_client.cpp
+  src/tcp_server.cpp
+  src/tcp_session.cpp
+  src/tcp_session_handler.cpp
+  src/tcp_session_queue.cpp
+)
 
-# 编译选项
-if (LINUX)
-	set(CMAKE_CXX_FLAGS
-    -g
-    -Wall
-    -Wextra
-    -Werror
-    -Wconversion
-    -Wno-unused-parameter
-    -Wold-style-cast
-    -Woverloaded-virtual
-    -Wpointer-arith
-    -Wshadow
-    -Wwrite-strings
-    -std=c++1y
-	)
-endif()
-set(CMAKE_CXX_FLAGS "-g -w -std=c++14 -pthread")
-# 输出目录
-set(BINARY_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_OUTPUT_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BINARY_OUTPUT_DIR})
-foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-  string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${BINARY_OUTPUT_DIR})
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_SOURCE_DIR}/bin)
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${BINARY_OUTPUT_DIR})
-endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
-add_definitions(-DBINARY_OUTPUT_DIR="${BINARY_OUTPUT_DIR}")
+# 包含目录
+include_directories(
+  ${ASIO_INCLUDE_DIRS}
+)
 
-# 开启分组
-SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
+# 链接目录
+link_directories(
+  ${BINARY_OUTPUT_DIR}
+)
 
-# 配置asio
+# 配置生成库
 if (WIN32)
-  add_definitions(-DASIO_MSVC)
+  add_library(${CURRENT_PROJECT_NAME} STATIC
+    ${CURRENT_PROJECT_SRC_LISTS}
+  )
+else()
+  add_library(${CURRENT_PROJECT_NAME} SHARED
+    ${CURRENT_PROJECT_SRC_LISTS}
+  )
 endif()
-add_definitions(-DASIO_STANDALONE)
-set(ASIO_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/asio/asio/include)
 
-# 配置mnserver
-set(MNSERVER_LIBRARY mnserver)
-set(MNSERVER_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/mnserver)
-# 编译mnserver
-add_subdirectory(mnserver)
-
-# 编译示例代码
-add_subdirectory(examples/echo)
-
+set_target_properties(${CURRENT_PROJECT_NAME}
+  PROPERTIES
+  OUTPUT_NAME ${MNSERVER_LIBRARY}
+  ARCHIVE_OUTPUT_DIRECTORY ${BINARY_OUTPUT_DIR}
+  LIBRARY_OUTPUT_DIRECTORY ${BINARY_OUTPUT_DIR}
+)
