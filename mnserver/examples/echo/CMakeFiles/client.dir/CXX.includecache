@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zhxx/tools/c++/tcp/mnserver/examples/echo/client.cpp
+iostream
+-
+mnserver.h
+-
+cstdio
+-
+cstring
+-
+algorithm
+-
+
