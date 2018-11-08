@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
+int num=0;
 class SessionClientHandle : public mnserver::TCPSessionHandler
 {
 public:
@@ -15,9 +16,9 @@ public:
     // 接收消息事件
     virtual void onMessage(mnserver::NetMessage &message) override
     {
-        std::cout << "onMessage" << std::endl;
+        // std::cout << "onMessage" << std::endl;
         std::string msg=message.read_string();
-        std::cout<<"recv: "<<msg<<std::endl;
+        std::cout<<"[client recv]: "<<msg<<std::endl;
         sendMsg();
     }
 
@@ -28,11 +29,14 @@ public:
     }
     void sendMsg()
     {
-        std::string msg;
-        std::cout<<"input:\n>";
-        std::cin>>msg;
+        int stime=random()%5;
+        std::string msg="sleep: "+std::to_string(stime)+" "+std::to_string(num++);
+        // std::cout<<"input:\n>";
+        // std::cin>>msg;
+        // random_data();
         mnserver::NetMessage message(msg.c_str(),msg.size());
         send(message);
+        sleep(stime);
     }
 };
 

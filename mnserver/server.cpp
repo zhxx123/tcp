@@ -14,12 +14,12 @@ public:
         send(message);
     }
 
-    // 接收消息事件
+    // reveive message handler
     virtual void onMessage(mnserver::NetMessage &message) override
     {
-        std::cout << "onMessage" << std::endl;
+        // std::cout << "onMessage" << std::endl;
         std::string msg=message.read_string();
-        std::cout<<"server recv: "<<msg<<" "<<msg.size()<<std::endl;
+        std::cout<<"[server recv("<<msg.size()<<"):] "<<msg<<" "<<std::endl;
         mnserver::NetMessage messages(msg.c_str(),msg.size());
         send(messages);
     }

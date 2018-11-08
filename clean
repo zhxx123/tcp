@@ -1,0 +1,6 @@
+#!/bin/bash
+result_name="build"
+if [ -d $result_name ];then
+    echo "++ rm -r $result_name"
+    rm -r $result_name
+fi
