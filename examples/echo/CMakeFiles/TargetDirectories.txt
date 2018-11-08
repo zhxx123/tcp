@@ -1,4 +1,0 @@
-/home/zhxx/tools/c++/tcp/mnserver/examples/echo/CMakeFiles/rebuild_cache.dir
-/home/zhxx/tools/c++/tcp/mnserver/examples/echo/CMakeFiles/edit_cache.dir
-/home/zhxx/tools/c++/tcp/mnserver/examples/echo/CMakeFiles/client.dir
-/home/zhxx/tools/c++/tcp/mnserver/examples/echo/CMakeFiles/server.dir

@@ -12,3 +12,5 @@ Makefile
 bin
 build
 .vscode
+CMakeFile*
+examples
